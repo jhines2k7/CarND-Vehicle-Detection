@@ -49,7 +49,6 @@ notcar_ind = np.random.randint(0, len(notcars))
 car_image = mpimg.imread(cars[car_ind])
 notcar_image = mpimg.imread(notcars[notcar_ind])
 
-'''
 # Plot the examples
 fig = plt.figure()
 plt.subplot(121)
@@ -58,5 +57,4 @@ plt.title('Example Car Image')
 plt.subplot(122)
 plt.imshow(notcar_image)
 plt.title('Example Not-car Image')
-plt.savefig('car_not_car.png')
-'''
+plt.savefig('output_images/car_not_car.png')
