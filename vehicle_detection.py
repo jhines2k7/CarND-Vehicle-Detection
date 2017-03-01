@@ -18,9 +18,6 @@ for image in non_vehicle_images:
 for image in vehicle_images:
     cars.append(image)
 
-print('Number of non-vehicles ' + str(len(notcars)))
-print('Number of vehicles ' + str(len(cars)))
-'''        
 # Define a function to return some characteristics of the dataset 
 def data_look(car_list, notcar_list):
     data_dict = {}
@@ -52,7 +49,7 @@ notcar_ind = np.random.randint(0, len(notcars))
 car_image = mpimg.imread(cars[car_ind])
 notcar_image = mpimg.imread(notcars[notcar_ind])
 
-
+'''
 # Plot the examples
 fig = plt.figure()
 plt.subplot(121)
