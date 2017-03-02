@@ -15,8 +15,8 @@ The goals / steps of this project are the following:
 * Estimate a bounding box for vehicles detected.
 
 [//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
+[image1]: ./output_images/my_car_not_car.png
+[image2]: ./output_images/my_HOG_example.png
 [image3]: ./examples/sliding_windows.jpg
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
@@ -35,6 +35,7 @@ The goals / steps of this project are the following:
 You're reading it!
 
 ###Histogram of Oriented Gradients (HOG)
+
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 

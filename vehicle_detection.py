@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import glob
-#from skimage.feature import hog
+from skimage.feature import hog
 #from skimage import color, exposure
 # images are divided up into vehicles and non-vehicles
 
@@ -57,4 +57,65 @@ plt.title('Example Car Image')
 plt.subplot(122)
 plt.imshow(notcar_image)
 plt.title('Example Not-car Image')
-plt.savefig('output_images/car_not_car.png')
+plt.savefig('output_images/my_car_not_car.png', bbox_inches='tight')
+
+def get_hog_features(img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=True):
+    if vis == True:
+        features, hog_image = hog(img, orientations=orient, pixels_per_cell=(pix_per_cell, pix_per_cell),
+                                  cells_per_block=(cell_per_block, cell_per_block), transform_sqrt=False, 
+                                  visualise=True, feature_vector=False)
+        return features, hog_image
+    else:      
+        features = hog(img, orientations=orient, pixels_per_cell=(pix_per_cell, pix_per_cell),
+                       cells_per_block=(cell_per_block, cell_per_block), transform_sqrt=False, 
+                       visualise=False, feature_vector=feature_vec)
+        return features
+
+def downsample_image(img):
+    return cv2.resize(img, (32, 32))
+
+# Generate a random index to look at a car image
+ind = np.random.randint(0, len(cars))
+# Read in the image
+image = mpimg.imread(cars[ind])
+non_car_image = mpimg.imread(notcars[ind])
+
+downsampled_image = downsample_image(image)
+downsampled_non_car_image = downsample_image(non_car_image)
+
+gray = cv2.cvtColor(downsampled_image, cv2.COLOR_RGB2GRAY)
+non_car_image_gray = cv2.cvtColor(downsampled_non_car_image, cv2.COLOR_RGB2GRAY)
+# Define HOG parameters
+orient = 9
+pix_per_cell = 8
+cell_per_block = 2
+# Call our function with vis=True to see an image output
+features, hog_image = get_hog_features(gray, orient, 
+                        pix_per_cell, cell_per_block, 
+                        vis=True, feature_vec=False)
+
+features, non_car_hog_image = get_hog_features(non_car_image_gray, orient, 
+                        pix_per_cell, cell_per_block, 
+                        vis=True, feature_vec=False)
+
+
+# Plot the examples
+fig = plt.figure()
+
+plt.subplot(141)
+plt.imshow(downsampled_image, cmap='gray')
+plt.title('Example Car Image')
+
+plt.subplot(142)
+plt.imshow(hog_image, cmap='gray')
+plt.title('HOG Visualization')
+
+plt.subplot(143)
+plt.imshow(downsampled_non_car_image, cmap='gray')
+plt.title('Example Car Image')
+
+plt.subplot(144)
+plt.imshow(non_car_hog_image, cmap='gray')
+plt.title('HOG Visualization')
+
+plt.savefig('output_images/my_HOG_example.png', bbox_inches='tight')
