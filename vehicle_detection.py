@@ -1,5 +1,6 @@
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
+import matplotlib.pylab as pylab
 import numpy as np
 import cv2
 import glob
@@ -74,48 +75,58 @@ def get_hog_features(img, orient, pix_per_cell, cell_per_block, vis=False, featu
 def downsample_image(img):
     return cv2.resize(img, (32, 32))
 
+colorspace = cv2.COLOR_RGB2HLS #cv2.COLOR_RGB2HLS cv2.COLOR_RGB2LUV cv2.COLOR_RGB2HSV cv2.COLOR_RGB2YUV cv2.COLOR_RGB2YCrCb 
+
 # Generate a random index to look at a car image
 ind = np.random.randint(0, len(cars))
 # Read in the image
-image = mpimg.imread(cars[ind])
+car_image = mpimg.imread(cars[ind])
 non_car_image = mpimg.imread(notcars[ind])
 
-downsampled_image = downsample_image(image)
-downsampled_non_car_image = downsample_image(non_car_image)
+#downsampled_car_image = downsample_image(car_image)
+#downsampled_non_car_image = downsample_image(non_car_image)
 
-gray = cv2.cvtColor(downsampled_image, cv2.COLOR_RGB2GRAY)
-non_car_image_gray = cv2.cvtColor(downsampled_non_car_image, cv2.COLOR_RGB2GRAY)
+car_image_converted = cv2.cvtColor(car_image, colorspace)
+non_car_image_converted = cv2.cvtColor(non_car_image, colorspace)
 # Define HOG parameters
-orient = 9
+orient = 8
 pix_per_cell = 8
 cell_per_block = 2
 # Call our function with vis=True to see an image output
-features, hog_image = get_hog_features(gray, orient, 
+features, hog_image = get_hog_features(car_image_converted[:, :, 1], orient, 
                         pix_per_cell, cell_per_block, 
                         vis=True, feature_vec=False)
 
-features, non_car_hog_image = get_hog_features(non_car_image_gray, orient, 
+features, non_car_hog_image = get_hog_features(non_car_image_converted[:, :, 1], orient, 
                         pix_per_cell, cell_per_block, 
                         vis=True, feature_vec=False)
 
+params = {
+    'axes.labelsize': 'small',
+    'axes.titlesize':'small',
+    'xtick.labelsize':'x-small',
+    'ytick.labelsize':'x-small'
+}
+
+pylab.rcParams.update(params)
 
 # Plot the examples
 fig = plt.figure()
 
 plt.subplot(141)
-plt.imshow(downsampled_image, cmap='gray')
-plt.title('Example Car Image')
+plt.imshow(car_image_converted[:, :, 1], cmap='gray')
+plt.title('Car CH-1')
 
 plt.subplot(142)
 plt.imshow(hog_image, cmap='gray')
-plt.title('HOG Visualization')
+plt.title('Car CH-1 HOG')
 
 plt.subplot(143)
-plt.imshow(downsampled_non_car_image, cmap='gray')
-plt.title('Example Car Image')
+plt.imshow(non_car_image_converted[:, :, 1], cmap='gray')
+plt.title('Non-car CH-1')
 
 plt.subplot(144)
 plt.imshow(non_car_hog_image, cmap='gray')
-plt.title('HOG Visualization')
+plt.title('Non-car CH-1 HOG')
 
 plt.savefig('output_images/my_HOG_example.png', bbox_inches='tight')
