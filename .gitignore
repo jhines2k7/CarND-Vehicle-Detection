@@ -2,3 +2,4 @@ non-vehicles
 *.tar.gz
 output_images
 vehicles
+combine_normalize.py
