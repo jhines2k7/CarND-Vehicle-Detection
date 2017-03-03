@@ -169,8 +169,8 @@ def extract_features(imgs, cspace='RGB', orient=9,
                         pix_per_cell=8, cell_per_block=2, hog_channel=0):
     # TODO play with these values to see how your classifier
     # performs under different binning scenarios
-    spatial = 24
-    histbin = 24
+    spatial = 32
+    histbin = 32
     hist_range = (0, 256)
     # Create a list to append feature vectors to
     features = []
@@ -224,7 +224,7 @@ def extract_features(imgs, cspace='RGB', orient=9,
 colorspace = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 orient = 9
 pix_per_cell = 8
-cell_per_block = 2
+cell_per_block = 4
 hog_channel = 0 # Can be 0, 1, 2, or "ALL"
 
 car_features = extract_features(cars, cspace=colorspace, orient=orient, 
